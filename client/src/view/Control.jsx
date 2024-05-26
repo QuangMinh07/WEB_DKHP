@@ -7,6 +7,7 @@ import Users from "../components/Users";
 import RegisterHP from "./RegisterHP";
 import ListSchedule from "../components/ListSchedule";
 import ScheduleTable from "../components/ScheduleTable";
+import Checkdebt from "./Checkdebt";
 
 const Control = () => {
   const [tab, setTab] = useState("");
@@ -32,6 +33,7 @@ const Control = () => {
       {tab === "schedule" && <ListSchedule />}
       {tab === "users" && <Users />}
       {tab === "hp" && <RegisterHP />}
+      {tab === "Checkdebt" && <Checkdebt />}
     </div>
   );
 };

@@ -19,6 +19,13 @@ const Menu = () => {
       <Sidebar.Items>
         <Sidebar.ItemGroup className="flex flex-col gap-1">
           {createUser && !createUser.isAdmin && (
+            <Link to="/Checkdebt">
+              <Sidebar.Item active={tab === "Checkdebt"} labelColor="dark">
+                Tra cứu công nợ
+              </Sidebar.Item>
+            </Link>
+          )}
+          {createUser && !createUser.isAdmin && (
             <Link to="/Control?tab=sheduleTable">
               <Sidebar.Item active={tab === "sheduleTable"} labelColor="dark">
                 Lịch Học Theo Tuần

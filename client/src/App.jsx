@@ -8,6 +8,7 @@ import RegisterHP from "./view/RegisterHP";
 import DetailDKHP from "./view/DetailDKHP";
 import Register from "./view/Register";
 import Schedule from "./view/Schedule";
+import Checkdebt from "./view/Checkdebt";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
           <Route path="/Control" element={<Control />} />
           <Route path="/RegisterHP" element={<RegisterHP />} />
           <Route path="/DetailDKHP" element={<DetailDKHP />} />
+          <Route path="/Checkdebt" element={<Checkdebt />} />
         </Route>
         <Route element={<Admin />}>
           <Route path="/Course" element={<Course />} />
