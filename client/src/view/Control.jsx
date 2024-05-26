@@ -5,6 +5,8 @@ import Menu from "../components/Menu";
 import ListCourse from "../components/ListCourse";
 import Users from "../components/Users";
 import RegisterHP from "./RegisterHP";
+import ListSchedule from "../components/ListSchedule";
+import ScheduleTable from "../components/ScheduleTable";
 
 const Control = () => {
   const [tab, setTab] = useState("");
@@ -24,8 +26,10 @@ const Control = () => {
       <div>
         <Menu />
       </div>
+      {tab === "sheduleTable" && <ScheduleTable />}
       {tab === "profile" && <DetailUser />}
       {tab === "course" && <ListCourse />}
+      {tab === "schedule" && <ListSchedule />}
       {tab === "users" && <Users />}
       {tab === "hp" && <RegisterHP />}
     </div>

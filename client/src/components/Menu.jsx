@@ -18,6 +18,20 @@ const Menu = () => {
     <Sidebar className="w-full wd:w-56">
       <Sidebar.Items>
         <Sidebar.ItemGroup className="flex flex-col gap-1">
+          {createUser && !createUser.isAdmin && (
+            <Link to="/Control?tab=sheduleTable">
+              <Sidebar.Item active={tab === "sheduleTable"} labelColor="dark">
+                Lịch Học Theo Tuần
+              </Sidebar.Item>
+            </Link>
+          )}
+          {createUser && createUser.isAdmin && (
+            <Link to="/Control?tab=schedule">
+              <Sidebar.Item active={tab === "schedule"} labelColor="dark">
+                Quản lý lịch học
+              </Sidebar.Item>
+            </Link>
+          )}
           {createUser && createUser.isAdmin && (
             <Link to="/Control?tab=course">
               <Sidebar.Item active={tab === "course"} labelColor="dark">

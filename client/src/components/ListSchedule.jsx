@@ -1,24 +1,23 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Table, Modal, Button } from "flowbite-react";
-import { FaCheck, FaTimes } from "react-icons/fa";
 
-const ListCourse = () => {
+const ListSchedule = () => {
   const { createUser } = useSelector((state) => state.user);
-  const [course, setCourse] = useState([]);
+  const [schedule, setSchedule] = useState([]);
   const [showModal, setShowModal] = useState(false);
-  const [courseIdToDelete, setCourseIdToDelete] = useState("");
+  const [scheduleIdToDelete, setScheduleIdToDelete] = useState("");
   const [showMore, setShowMore] = useState(true);
 
   useEffect(() => {
     const fetchPost = async () => {
       try {
         const res = await fetch(
-          `/v1/course/getCourse?userId=${createUser._id}`
+          `/v1/schedule/getSchedule1?userId=${createUser._id}`
         );
         const data = await res.json();
         if (res.ok) {
-          setCourse(data.posts);
+          setSchedule(data.posts);
           if (data.posts.length < 9) {
             setShowMore(false);
           }
@@ -36,7 +35,7 @@ const ListCourse = () => {
     setShowModal(false);
     try {
       const res = await fetch(
-        `/v1/course/deleteCourse/${courseIdToDelete}/${createUser._id}`,
+        `/v1/schedule/deleteSchedule/${scheduleIdToDelete}/${createUser._id}`,
         {
           method: "DELETE",
         }
@@ -45,8 +44,8 @@ const ListCourse = () => {
       if (!res.ok) {
         console.log(data.message);
       } else {
-        setCourse((prev) =>
-          prev.filter((post) => post._id !== courseIdToDelete)
+        setSchedule((prev) =>
+          prev.filter((post) => post._id !== scheduleIdToDelete)
         );
       }
     } catch (error) {
@@ -55,14 +54,14 @@ const ListCourse = () => {
   };
 
   const handleShowMore = async () => {
-    const startIndex = course.length;
+    const startIndex = schedule.length;
     try {
       const res = await fetch(
-        `/v1/course/getCourse?userId=${createUser._id}&startIndex=${startIndex}`
+        `/v1/schedule/getSchedule1?userId=${createUser._id}&startIndex=${startIndex}`
       );
       const data = await res.json();
       if (res.ok) {
-        setCourse((prev) => [...prev, ...data.posts]);
+        setSchedule((prev) => [...prev, ...data.posts]);
         if (data.posts.length < 9) {
           setShowMore(false);
         }
@@ -74,7 +73,7 @@ const ListCourse = () => {
 
   return (
     <div className="table-auto overflow-x-scroll md:mx-auto p-3 scrollbar scrollbar-track-slate-100 scrollbar-thumb-slate-300 dark:scrollbar-track-slate-700 dark:scrollbar-thumb-slate-500">
-      {createUser.isAdmin && course.length > 0 ? (
+      {createUser.isAdmin && schedule?.length > 0 ? (
         <>
           <Table hoverable className="shadow-md">
             <Table.Head>
@@ -100,19 +99,37 @@ const ListCourse = () => {
                 className="border border-gray-200"
                 style={{ backgroundColor: "#4169E1", color: "white" }}
               >
-                Tên môn học
+                Lớp
               </Table.HeadCell>
               <Table.HeadCell
                 className="border border-gray-200"
                 style={{ backgroundColor: "#4169E1", color: "white" }}
               >
-                Số tín chỉ
+                Thời gian bắt đầu
               </Table.HeadCell>
               <Table.HeadCell
                 className="border border-gray-200"
                 style={{ backgroundColor: "#4169E1", color: "white" }}
               >
-                Bắt buộc
+                Thời gian kết thúc
+              </Table.HeadCell>
+              <Table.HeadCell
+                className="border border-gray-200"
+                style={{ backgroundColor: "#4169E1", color: "white" }}
+              >
+                Thứ
+              </Table.HeadCell>
+              <Table.HeadCell
+                className="border border-gray-200"
+                style={{ backgroundColor: "#4169E1", color: "white" }}
+              >
+                Phòng
+              </Table.HeadCell>
+              <Table.HeadCell
+                className="border border-gray-200"
+                style={{ backgroundColor: "#4169E1", color: "white" }}
+              >
+                Giảng Viên
               </Table.HeadCell>
               <Table.HeadCell
                 className="border border-gray-200"
@@ -121,36 +138,41 @@ const ListCourse = () => {
                 Xóa
               </Table.HeadCell>
             </Table.Head>
-            {course.map((course) => (
+            {schedule.map((schedule) => (
               <Table.Body className="divide-y">
                 <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
                   <Table.Cell className="border border-gray-200">
-                    {new Date(course.updatedAt).toLocaleDateString()}
+                    {new Date(schedule.updatedAt).toLocaleDateString()}
                   </Table.Cell>
                   <Table.Cell className="border border-gray-200">
-                    {course.STT}
+                    {schedule.STT}
                   </Table.Cell>
                   <Table.Cell className="border border-gray-200">
-                    {course.MaHP}
+                    {schedule.maHP}
                   </Table.Cell>
                   <Table.Cell className="border border-gray-200">
-                    {course.tenMonHoc}
+                    {schedule.lop}
                   </Table.Cell>
                   <Table.Cell className="border border-gray-200">
-                    {course.tinChi}
+                    {schedule.thoigianbatdau}
                   </Table.Cell>
                   <Table.Cell className="border border-gray-200">
-                    {course.BatBuoc ? (
-                      <FaCheck className="text-green-500 " />
-                    ) : (
-                      <FaTimes className="text-red-500 " />
-                    )}
+                    {schedule.thoigianketthuc}
+                  </Table.Cell>
+                  <Table.Cell className="border border-gray-200">
+                    {schedule.day}
+                  </Table.Cell>
+                  <Table.Cell className="border border-gray-200">
+                    {schedule.room}
+                  </Table.Cell>
+                  <Table.Cell className="border border-gray-200">
+                    {schedule.teacher}
                   </Table.Cell>
                   <Table.Cell className="border border-gray-200">
                     <span
                       onClick={() => {
                         setShowModal(true);
-                        setCourseIdToDelete(course._id);
+                        setScheduleIdToDelete(schedule._id);
                       }}
                       className="font-medium text-red-500 hover:underline cursor-pointer"
                     >
@@ -199,4 +221,4 @@ const ListCourse = () => {
   );
 };
 
-export default ListCourse;
+export default ListSchedule;
